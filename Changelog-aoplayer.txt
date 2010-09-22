@@ -1,0 +1,6 @@
+---------------------------------------
+ARGENTUM ONLINE - CHANGELOG DEL AOPLAYER
+---------------------------------------
+
+21/09/10: SUper commit inicial. Grabadora y reproductora funcionales. Conversor a .AVI en beta. (Budi)
+
