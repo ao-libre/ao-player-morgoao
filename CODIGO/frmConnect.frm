@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "shdocvw.dll"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Begin VB.Form frmConnect 
    BackColor       =   &H00E0E0E0&
    BorderStyle     =   0  'None
@@ -76,7 +76,7 @@ Begin VB.Form frmConnect
       NoFolders       =   0   'False
       Transparent     =   0   'False
       ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-      Location        =   ""
+      Location        =   "http:///"
    End
    Begin VB.TextBox txtPasswd 
       BackColor       =   &H00000000&
@@ -186,7 +186,7 @@ Begin VB.Form frmConnect
       NoFolders       =   0   'False
       Transparent     =   0   'False
       ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-      Location        =   ""
+      Location        =   "http:///"
    End
    Begin VB.Image imgTeclas 
       Height          =   375
@@ -339,8 +339,8 @@ Public LastPressed As clsGraphicalButton
 
 Private Sub Command1_Click()
 CommonDialog1.ShowOpen
-If Not CommonDialog1.fileName = vbNullString Then
-    Recorder.getVideoFile (CommonDialog1.fileName)
+If Not CommonDialog1.FileName = vbNullString Then
+    Recorder.getVideoFile (CommonDialog1.FileName)
     Recorder.Play
 End If
 End Sub
@@ -351,9 +351,9 @@ Dim file As String
 Randomize time
 file = App.path & "\" & Chr(RandomNumber(65, 80)) & Chr(RandomNumber(65, 80)) & Chr(RandomNumber(65, 80)) & Chr(RandomNumber(65, 80)) & Chr(RandomNumber(65, 80)) & Chr(RandomNumber(65, 80)) & Chr(RandomNumber(65, 80)) & ".avi"
 'file = App.path & "\" & String(5, Chr(RandomNumber(65, 80))) & ".avi"
-If CommonDialog1.fileName = vbNullString Then
+If CommonDialog1.FileName = vbNullString Then
     CommonDialog2.ShowOpen
-    Call Recorder.getVideoFile(CommonDialog2.fileName)
+    Call Recorder.getVideoFile(CommonDialog2.FileName)
     frmMain.Show
     DoEvents
     Call Conversor.initConversor(file) '(commondialog1.fileName)

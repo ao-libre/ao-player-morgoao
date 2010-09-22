@@ -347,6 +347,8 @@ Dim tmpBFH As BITMAPFILEHEADER
         End If
     End If
 End Function
+
+'Budi
 Public Function createMagically(ByVal Width As Long, ByVal Height As Long) As Boolean
 Dim ret As Long
 Dim tBMP As BITMAP

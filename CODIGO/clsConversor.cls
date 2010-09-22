@@ -48,7 +48,7 @@ Private Declare Sub AVIFileInit Lib "avifil32.dll" ()
 
 Private Declare Sub AVIFileExit Lib "avifil32.dll" ()
 
-Private Declare Function StretchBlt Lib "gdi32" (ByVal hdc As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal nSrcWidth As Long, ByVal nSrcHeight As Long, ByVal dwRop As Long) As Long
+Private Declare Function StretchBlt Lib "gdi32" (ByVal HDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal nSrcWidth As Long, ByVal nSrcHeight As Long, ByVal dwRop As Long) As Long
 
 Private Declare Function privateAlloc Lib "kernel32" (ByVal wFlags As Long, ByVal dwBytes As Long) As Long
 
@@ -239,7 +239,7 @@ Private Declare Sub CopyMemory Lib "kernel32.dll" Alias "RtlMoveMemory" (ByRef d
 Private Declare Function BitBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal dwRop As Long) As Long
 
 Private Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
-Private Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hdc As Long) As Long
+Private Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal HDC As Long) As Long
 
 Private Const HEAP_ZERO_MEMORY As Long = &H8
 
@@ -323,21 +323,6 @@ Dim H As Long, W As Long
     res = AVIMakeCompressedStream(psCompressed, ps, opts, 0&)
     If res <> AVIERR_OK Then GoTo error
     
-    'set format of stream according to the bitmap
-'    With BI
-'        .biBitCount = mBMP.BitCount
-'        .biClrImportant = mBMP.ClrImportant
-'        .biClrUsed = mBMP.ClrUsed
-'        .biCompression = mBMP.Compression
-'        .biHeight = mBMP.Height
-'        .biWidth = mBMP.Width
-'        .biPlanes = mBMP.Planes
-'        .biSize = mBMP.SizeInfoHeader
-'        .biSizeImage = mBMP.SizeImage
-'        .biXPelsPerMeter = mBMP.XPPM
-'        .biYPelsPerMeter = mBMP.YPPM
-'    End With
-    
     'set the format of the compressed stream
     res = AVIStreamSetFormat(psCompressed, 0, ByVal mBMP.PointerToBitmapInfo, mBMP.SizeBitmapInfo)
     If (res <> AVIERR_OK) Then GoTo error
@@ -416,56 +401,3 @@ End If
 
 Call openAVI
 End Sub
-
-'Private Sub AddAudioStream(ByVal AVIFilePath As String, ByVal WAVFilePath As String) 'AddAudioStream(Destination AVI FilePath, Source WAV FilePath)
-'    On Error GoTo ErrHandler
-'    Dim StreamInfo As AVI_STREAM_INFO
-'    Dim StreamFormat As PCMWAVEFORMAT
-'    Dim StreamLength As Long
-'    Dim WaveData As Long
-'    Dim AVIFile As Long
-'    Dim AudioFile As Long
-'    Dim AudioStream As Long
-'    Dim AVIStream As Long
-'    Call AVIFileInit 'Initialize the AVI library.
-'
-'
-'    If AVIFileOpen(AVIFile, AVIFilePath, OF_READWRITE, ByVal 0&) = AVIERR_OK Then 'open the avi file
-'
-'
-'        If AVIFileOpen(AudioFile, WAVFilePath, OF_READWRITE, ByVal 0&) = AVIERR_OK Then 'open the wave file
-'
-'            If AVIFileGetStream(AudioFile, AudioStream, streamtypeAUDIO, 0) <> AVIERR_OK Then GoTo ErrHandler  'get the audio stream
-'
-'            If AVIStreamInfo(AudioStream, StreamInfo, Len(StreamInfo)) <> AVIERR_OK Then GoTo ErrHandler 'read the stream's header information
-'
-'            AVIStreamReadFormat AudioStream, 0, StreamFormat, Len(StreamFormat) 'read the stream's format data
-'
-'            StreamLength = AVIStreamLength(AudioStream) * StreamInfo.dwSampleSize 'get the length of the stream
-'
-'            WaveData = privateAlloc(GPTR, StreamLength) 'get pointer To the wave data
-'
-'            AVIStreamRead AudioStream, 0, StreamLength, WaveData, StreamLength, 0, 0 'read audio data from the stream
-'
-'            AVIFileCreateStream AVIFile, AVIStream, StreamInfo 'create new stream
-'
-'            AVIStreamSetFormat AVIStream, 0, StreamFormat, Len(StreamFormat) 'set the format of new stream
-'
-'            AVIStreamWrite AVIStream, 0, StreamLength, WaveData, StreamLength, AVIIF_KEYFRAME, 0, 0   'copy the raw wave data To new stream
-'
-'            privateFree WaveData 'release the wave data pointer
-'
-'            AVIStreamRelease (AudioStream)
-'
-'            AVIStreamRelease (AVIStream)
-'
-'            AVIFileRelease AudioFile
-'
-'            AVIFileRelease AVIFile
-'
-'            Call AVIFileExit 'close the AVI library
-'        End If
-'    End If
-'ErrHandler:
-'
-'End Sub
