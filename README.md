@@ -2,4 +2,4 @@
 
 Don't know what is it.
 
-Taked from https://sourceforge.net/projects/morgoao/ just for historical purposes.
+Imported CVS history from https://sourceforge.net/projects/morgoao/ just for historical purposes.
